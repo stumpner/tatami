@@ -5,7 +5,7 @@
     <parent>
         <artifactId>tatami</artifactId>
         <groupId>fr.ippon.tatami</groupId>
-        <version>4.0.5</version>
+        <version>0.0.7-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -15,12 +15,12 @@
         <dependency>
             <groupId>fr.ippon.tatami</groupId>
             <artifactId>services</artifactId>
-            <version>4.0.5</version>
+            <version>0.0.7-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>fr.ippon.tatami</groupId>
             <artifactId>services</artifactId>
-            <version>4.0.5</version>
+            <version>0.0.7-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
@@ -176,7 +176,8 @@
 				</goals>
 			</execution>
 		</executions>
-	</plugin>    
+	</plugin>
+    <!--    
 	<plugin>
                 <groupId>com.kelveden</groupId>
                 <artifactId>maven-karma-plugin</artifactId>
@@ -194,6 +195,7 @@
                     <configFile>${project.basedir}/karma.ci.conf.js</configFile>
                 </configuration>
             </plugin>
+        -->
 
         </plugins>
     </build>

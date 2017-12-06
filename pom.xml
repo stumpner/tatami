@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>fr.ippon.tatami</groupId>
     <artifactId>tatami</artifactId>
-    <version>4.0.5</version>
+    <version>0.0.7-SNAPSHOT</version>
 
     <modules>
         <module>web</module>
@@ -395,7 +395,7 @@
         <sonar.exclusions>src/main/webapp/assets/**.*</sonar.exclusions>
         <!-- Configuration -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.6</java.version>
+        <java.version>1.8</java.version>
 
         <!-- Dependencies -->
         <spring.version>3.2.3.RELEASE</spring.version>
