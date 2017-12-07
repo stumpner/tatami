@@ -70,7 +70,7 @@ public class TagControllerTest extends AbstractCassandraTatamiTest {
         mockMvc.perform(get("/rest/tags/testTag/tag_timeline")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$.[0]").doesNotExist());
 
         timelineMockMvc.perform(post("/rest/statuses/")
@@ -81,7 +81,7 @@ public class TagControllerTest extends AbstractCassandraTatamiTest {
         mockMvc.perform(get("/rest/tags/testTag/tag_timeline")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$.[0].content").value("Test status with a tag #testTag"));
 
     }
@@ -92,7 +92,7 @@ public class TagControllerTest extends AbstractCassandraTatamiTest {
         mockMvc.perform(get("/rest/tagmemberships/list")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$.[0]").doesNotExist());
 
         mockMvc.perform(post("/rest/tagmemberships/create")
@@ -103,7 +103,7 @@ public class TagControllerTest extends AbstractCassandraTatamiTest {
         mockMvc.perform(get("/rest/tagmemberships/list")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$.[0].name").value("testTag"));
 
         mockMvc.perform(post("/rest/tagmemberships/destroy")
@@ -114,7 +114,7 @@ public class TagControllerTest extends AbstractCassandraTatamiTest {
         mockMvc.perform(get("/rest/tagmemberships/list")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$.[0]").doesNotExist());
     }
 }

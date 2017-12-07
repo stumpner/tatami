@@ -1,6 +1,7 @@
 package fr.ippon.tatami.repository;
 
 import fr.ippon.tatami.AbstractCassandraTatamiTest;
+import fr.ippon.tatami.domain.status.AbstractStatus;
 import fr.ippon.tatami.domain.status.Status;
 import org.junit.Test;
 
@@ -29,7 +30,9 @@ public class StatusRepositoryTest extends AbstractCassandraTatamiTest {
 
         Status created = statusRepository.createStatus(login, false, null, new ArrayList<String>(),
                 content, "", "", "", "48.54654, 3.87987987");
-        assertThat(created, notNullValue());
+        log.info(created.getStatusId().toString());
+        AbstractStatus foundStatus =  statusRepository.findStatusById(created.getStatusId().toString());
+        assertThat(foundStatus, notNullValue());
     }
 
     @Test(expected = ValidationException.class)

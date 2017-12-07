@@ -45,7 +45,7 @@ public class UserControllerTest extends AbstractCassandraTatamiTest {
         restUserMockMvc.perform(get("/rest/users/jdubois")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$.firstName").value("Julien"));
     }
 

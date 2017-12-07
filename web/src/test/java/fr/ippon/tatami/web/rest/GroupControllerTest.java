@@ -69,7 +69,7 @@ public class GroupControllerTest extends AbstractCassandraTatamiTest {
                 .param("screen_name", "userWhoHasGroup")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$.[0].name").value("Test group"))
                 .andReturn().getResponse().getContentAsString();
 
@@ -85,7 +85,7 @@ public class GroupControllerTest extends AbstractCassandraTatamiTest {
         mockMvc.perform(get("/rest/groups/" + groupId)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$.name").value("Test group"));
 
         // Test group update
@@ -100,7 +100,7 @@ public class GroupControllerTest extends AbstractCassandraTatamiTest {
         mockMvc.perform(get("/rest/groups/" + groupId)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$.name").value("Updated test group"));
 
         // Test adding and removing a user
@@ -133,7 +133,7 @@ public class GroupControllerTest extends AbstractCassandraTatamiTest {
                 .param("screen_name", "userWhoHasGroup")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andReturn().getResponse().getContentAsString();
 
         groups = new ObjectMapper().readValue(groupsAsJson, new TypeReference<List<Group>>() {
@@ -147,7 +147,7 @@ public class GroupControllerTest extends AbstractCassandraTatamiTest {
         String usersAsJson = mockMvc.perform(get("/rest/groups/" + groupId + "/members/")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$.[0].lastName").value("WhoHasGroup"))
                 .andExpect(jsonPath("$.[0].isMember").value(true))
                 .andReturn().getResponse().getContentAsString();

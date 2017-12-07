@@ -69,13 +69,13 @@ public class TimelineControllerTest  extends AbstractCassandraTatamiTest{
         mockMvc.perform(get("/rest/statuses/home_timeline")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$.[0].content").value("Test status with Spring TestContext"));
 
         mockMvc.perform(get("/rest/statuses/" + username + "/timeline")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$.[0].content").value("Test status with Spring TestContext"));
     }
 
@@ -90,7 +90,7 @@ public class TimelineControllerTest  extends AbstractCassandraTatamiTest{
         String statusAsJson = mockMvc.perform(get("/rest/statuses/home_timeline")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andReturn().getResponse().getContentAsString();
 
         Collection<StatusDTO> statusDTOs = new ObjectMapper().readValue(statusAsJson,
@@ -108,7 +108,7 @@ public class TimelineControllerTest  extends AbstractCassandraTatamiTest{
         String replyAsJson = mockMvc.perform(get("/rest/statuses/home_timeline")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andReturn().getResponse().getContentAsString();
 
         statusDTOs = new ObjectMapper().readValue(replyAsJson,
