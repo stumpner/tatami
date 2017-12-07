@@ -108,11 +108,11 @@ public class UserXAuthController {
     @RequestMapping(value = "/rest/authentication",
             method = RequestMethod.POST)
     @Timed
-    public Token authorize(@RequestParam String j_username, @RequestParam String j_password) {
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(j_username, j_password);
+    public Token authorize(@RequestParam String username, @RequestParam String password) {
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserDetails details = userDetailsService.loadUserByUsername(j_username);
+        UserDetails details = userDetailsService.loadUserByUsername(username);
         return tokenProvider.createToken(details);
     }
 

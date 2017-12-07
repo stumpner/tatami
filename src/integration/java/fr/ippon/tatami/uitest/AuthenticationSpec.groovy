@@ -39,8 +39,8 @@ class AuthenticationSpec extends TatamiBaseGebSpec {
 		
         when:
         loginForm.with {
-            j_username = "jdubois@ippon.fr"
-            j_password = "ippon"
+            username = "jdubois@ippon.fr"
+            password = "ippon"
         }
          
         and:
@@ -65,8 +65,8 @@ class AuthenticationSpec extends TatamiBaseGebSpec {
 		def username = "$newUid@ippon.fr"
 		loginForm.with {
 //			j_username = "john_doe@ippon.fr"
-			j_username = username 
-			j_password = "john"
+			username = username
+			password = "john"
 		}
 		 
 		and:

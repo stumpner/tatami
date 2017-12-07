@@ -39,7 +39,8 @@
         vm.lastEndpoint = {url: ''};
 
         function login() {
-            var data = "j_username=" + encodeURIComponent(vm.user.email) + "&j_password="
+           console.log('passo di qui')
+            var data = "username=" + encodeURIComponent(vm.user.email) + "&password="
                 + encodeURIComponent(vm.user.password);
             return $http.post('/tatami/rest/authentication', data, {
                 headers: {
