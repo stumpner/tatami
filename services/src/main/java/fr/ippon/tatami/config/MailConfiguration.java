@@ -18,6 +18,10 @@ import java.util.Properties;
  *
  * @author Pierre Rust
  */
+
+
+//todo remove velocity in favor of freemarker
+
 @Configuration
 public class MailConfiguration {
 

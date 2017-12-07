@@ -32,6 +32,8 @@ import java.util.*;
  *
  * @author Julien Dubois
  */
+//todo remove velocity in favor of freemarker
+
 @Service
 public class MailService {
 
