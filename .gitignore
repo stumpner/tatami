@@ -22,3 +22,5 @@ web/src/main/webapp/app/**/*.MIN.css
 web/src/main/webapp/app/**/*.min.css
 web/src/main/webapp/css/tatami.min.css
 src/main/webapp/app/shared/footer/FooterView.html.sed.del
+mobile/package-lock.json
+web/package-lock.json
