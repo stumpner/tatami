@@ -1,5 +1,6 @@
 package fr.ippon.tatami.config;
 
+import it.balyfix.porting.VelocityEngineFactoryBean;
 import org.apache.commons.lang.CharEncoding;
 import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;
@@ -8,19 +9,10 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.ui.velocity.VelocityEngineFactoryBean;
 
 import java.io.IOException;
 import java.util.Properties;
 
-/**
- * Configuration for velocity template and i18n for emails.
- *
- * @author Pierre Rust
- */
-
-
-//todo remove velocity in favor of freemarker
 
 @Configuration
 public class MailConfiguration {
