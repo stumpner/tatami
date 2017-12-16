@@ -1,9 +1,8 @@
 package fr.ippon.tatami.repository.cassandra;
 
-import fr.ippon.tatami.repository.GrouplineRepository;
-import me.prettyprint.hector.api.Keyspace;
-import org.springframework.stereotype.Repository;
 import fr.ippon.tatami.config.ColumnFamilyKeys;
+import fr.ippon.tatami.repository.GrouplineRepository;
+import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
 import java.util.Collection;
@@ -23,7 +22,7 @@ import java.util.List;
 public class CassandraGrouplineRepository extends AbstractCassandraLineRepository implements GrouplineRepository {
 
     @Inject
-    private Keyspace keyspaceOperator;
+    //private Keyspace keyspaceOperator;
 
     @Override
     public void addStatusToGroupline(String groupId, String statusId) {

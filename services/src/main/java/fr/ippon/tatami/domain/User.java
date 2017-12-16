@@ -1,33 +1,30 @@
 package fr.ippon.tatami.domain;
 
+import com.datastax.driver.mapping.annotations.Column;
+import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.ippon.tatami.domain.validation.ContraintsUserCreation;
+import fr.ippon.tatami.validation.ContraintsUserCreation;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.validation.groups.Default;
 import java.io.Serializable;
-
 /**
  * A user.
  *
  * @author Julien Dubois
  */
-@Entity
-@Table(name = "User")
+@Table(name = "user")
 public class User implements Serializable {
 
     @NotEmpty(message = "Login is mandatory.", groups = {ContraintsUserCreation.class, Default.class})
     @NotNull(message = "Login is mandatory.", groups = {ContraintsUserCreation.class, Default.class})
     @Email(message = "Email is invalid.")
-    @Id
     @JsonIgnore
+    @PartitionKey
     private String login;
 
     @Column(name = "password")
@@ -270,25 +267,25 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-                "login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", username='" + username + '\'' +
-                ", domain='" + domain + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", jobTitle='" + jobTitle + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", openIdUrl='" + openIdUrl + '\'' +
-                ", preferencesMentionEmail=" + preferencesMentionEmail +
-                ", rssUid=" + rssUid +
-                ", dailyDigestSubscription=" + dailyDigestSubscription +
-                ", weeklyDigestSubscription=" + weeklyDigestSubscription +
-                ", attachmentsSize=" + attachmentsSize +
-                ", activated=" + activated +
-                ", statusCount=" + statusCount +
-                ", friendsCount=" + friendsCount +
-                ", followersCount=" + followersCount +
-                '}';
+            "login='" + login + '\'' +
+            ", password='" + password + '\'' +
+            ", username='" + username + '\'' +
+            ", domain='" + domain + '\'' +
+            ", avatar='" + avatar + '\'' +
+            ", firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", jobTitle='" + jobTitle + '\'' +
+            ", phoneNumber='" + phoneNumber + '\'' +
+            ", openIdUrl='" + openIdUrl + '\'' +
+            ", preferencesMentionEmail=" + preferencesMentionEmail +
+            ", rssUid=" + rssUid +
+            ", dailyDigestSubscription=" + dailyDigestSubscription +
+            ", weeklyDigestSubscription=" + weeklyDigestSubscription +
+            ", attachmentsSize=" + attachmentsSize +
+            ", activated=" + activated +
+            ", statusCount=" + statusCount +
+            ", friendsCount=" + friendsCount +
+            ", followersCount=" + followersCount +
+            '}';
     }
 }

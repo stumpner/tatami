@@ -1,11 +1,6 @@
 package fr.ippon.tatami.config;
 
-import com.yammer.metrics.HealthChecks;
 import com.yammer.metrics.reporting.GraphiteReporter;
-import fr.ippon.tatami.config.metrics.CassandraHealthCheck;
-import fr.ippon.tatami.config.metrics.JavaMailHealthCheck;
-import fr.ippon.tatami.service.MailService;
-import me.prettyprint.hector.api.Keyspace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -22,19 +17,19 @@ public class MetricsConfiguration {
 
     @Inject
     private Environment env;
-
-    @Inject
-    private Keyspace keyspaceOperator;
-
-    @Inject
-    private MailService mailService;
+//
+//    @Inject
+//   // private Keyspace keyspaceOperator;
+//
+//    @Inject
+//    private MailService mailService;
 
     @PostConstruct
     public void initMetrics() {
         if (env.acceptsProfiles(Constants.SPRING_PROFILE_METRICS)) {
             log.debug("Initializing Metrics healthchecks");
-            HealthChecks.register(new CassandraHealthCheck(keyspaceOperator));
-            HealthChecks.register(new JavaMailHealthCheck(mailService));
+//            HealthChecks.register(new CassandraHealthCheck(keyspaceOperator));
+//            HealthChecks.register(new JavaMailHealthCheck(mailService));
 
             String graphiteHost = env.getProperty("tatami.metrics.graphite.host");
             if (graphiteHost != null) {

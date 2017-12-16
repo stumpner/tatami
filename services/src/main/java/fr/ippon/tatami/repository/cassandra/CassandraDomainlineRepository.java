@@ -1,7 +1,6 @@
 package fr.ippon.tatami.repository.cassandra;
 
 import fr.ippon.tatami.repository.DomainlineRepository;
-import me.prettyprint.hector.api.Keyspace;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
@@ -26,7 +25,7 @@ public class CassandraDomainlineRepository extends AbstractCassandraLineReposito
     private final static int COLUMN_TTL = 60 * 60 * 24 * 30; // The column is stored for 30 days.
 
     @Inject
-    private Keyspace keyspaceOperator;
+   // private Keyspace keyspaceOperator;
 
     @Override
     public void addStatusToDomainline(String domain, String statusId) {

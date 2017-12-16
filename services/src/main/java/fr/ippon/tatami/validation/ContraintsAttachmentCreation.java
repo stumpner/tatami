@@ -1,4 +1,4 @@
-package fr.ippon.tatami.domain.validation;
+package fr.ippon.tatami.validation;
 
 public interface ContraintsAttachmentCreation {
 

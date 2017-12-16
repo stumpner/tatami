@@ -71,7 +71,7 @@ public abstract class AbstractCassandraTatamiTest {
     public static void cleanupServer() {
         Collection<TableMetadata> tables = cluster.getMetadata().getKeyspace("testTatami").getTables();
         tables.forEach(table ->
-                session.execute(QueryBuilder.truncate(table)));
+            session.execute(QueryBuilder.truncate(table)));
     }
 
     protected User constructAUser(String login, String firstName, String lastName) {

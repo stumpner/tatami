@@ -266,20 +266,6 @@
               </execution>
             </executions>
           </plugin>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>cassandra-maven-plugin</artifactId>
-            <version>${maven.cassandra.version}</version>
-            <executions>
-              <execution>
-                <id>start-cassandra</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>start</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
         </plugins>
       </build>
       <dependencies>
@@ -398,7 +384,7 @@
     <sonar.exclusions>src/main/webapp/assets/**.*</sonar.exclusions>
     <!-- Configuration -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java.version>1.7</java.version>
+    <java.version>1.8</java.version>
 
     <!-- Dependencies -->
     <spring.version>4.3.13.RELEASE</spring.version>
@@ -409,23 +395,21 @@
     <logback.version>1.0.13</logback.version>
     <httpclient.core.version>4.2.2</httpclient.core.version> <!-- pour compatiblité selenium -->
     <httpclient.client.version>4.2.2</httpclient.client.version> <!-- pour compatiblité selenium -->
-    <cassandra.version>1.2.6</cassandra.version>
-    <hector.version>1.1-4</hector.version>
-    <hector.mapper.version>3.1-09</hector.mapper.version>
+    <datastax.version>3.3.0</datastax.version>
     <persistence.api.version>1.0.2</persistence.api.version>
     <javax.inject.version>1</javax.inject.version>
     <javax.servlet.api.version>3.0.1</javax.servlet.api.version>
     <javax.validation.api.version>1.0.0.GA</javax.validation.api.version>
-    <hibernate.validator.version>4.3.0.Final</hibernate.validator.version>
+    <hibernate.validator.version>6.0.5.Final</hibernate.validator.version>
     <jstl.version>1.2</jstl.version>
-    <jackson.version>2.7.4</jackson.version>
+    <jackson.version>2.9.3</jackson.version>
     <jodatime.version>2.1</jodatime.version>
     <commons.lang.version>2.6</commons.lang.version>
     <commons.io.version>2.3</commons.io.version>
     <junit.version>4.12</junit.version>
     <hamcrest.version>1.3</hamcrest.version>
     <awaitility.version>1.3.5</awaitility.version>
-    <cassandra.unit.version>1.2.0.1</cassandra.unit.version>
+    <cassandra.unit.version>3.3.0.2</cassandra.unit.version>
     <mockito.version>1.9.0</mockito.version>
     <rome.version>1.5</rome.version>
     <pegdown.version>1.2.1</pegdown.version>
@@ -441,7 +425,6 @@
     <maven.surefire.version>2.14</maven.surefire.version>
     <maven.war.version>2.3</maven.war.version>
     <maven.jetty.version>8.1.13.v20130916</maven.jetty.version>
-    <maven.cassandra.version>1.2.1-1</maven.cassandra.version>
     <maven.wro4j.version>1.7.0</maven.wro4j.version>
     <maven-eclipse-plugin.version>2.9</maven-eclipse-plugin.version>
     <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
@@ -681,33 +664,6 @@
       <version>${elasticsearch.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.hectorclient</groupId>
-      <artifactId>hector-core</artifactId>
-      <version>${hector.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>javax.servlet</groupId>
-          <artifactId>servlet-api</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.hectorclient</groupId>
-      <artifactId>hector-object-mapper</artifactId>
-      <version>${hector.mapper.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.mortbay.jetty</groupId>
-          <artifactId>servlet-api</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-validator</artifactId>
-      <version>${hibernate.validator.version}</version>
-    </dependency>
-    <dependency>
       <groupId>org.pegdown</groupId>
       <artifactId>pegdown</artifactId>
       <version>${pegdown.version}</version>
@@ -734,17 +690,7 @@
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
-      <artifactId>spring-context</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
       <artifactId>spring-context-support</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-core</artifactId>
       <version>${spring.version}</version>
     </dependency>
     <dependency>
@@ -823,42 +769,74 @@
       <version>1.5.0</version>
     </dependency>
 
-    <!-- Test dependencies -->
+    <!-- new dependency  -->
 
     <dependency>
-      <groupId>org.apache.cassandra</groupId>
-      <artifactId>cassandra-all</artifactId>
-      <version>${cassandra.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>javax.servlet</groupId>
-          <artifactId>servlet-api</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.mortbay.jetty</groupId>
-          <artifactId>servlet-api</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.mortbay.jetty</groupId>
-          <artifactId>jetty</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.mortbay.jetty</groupId>
-          <artifactId>jetty-util</artifactId>
-        </exclusion>
-      </exclusions>
-      <scope>test</scope>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-cassandra</artifactId>
+      <version>2.0.2.RELEASE</version>
     </dependency>
     <dependency>
-      <groupId>com.jayway.jsonpath</groupId>
-      <artifactId>json-path</artifactId>
-      <version>2.2.0</version>
+      <groupId>javax.el</groupId>
+      <artifactId>javax.el-api</artifactId>
+      <version>3.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish</groupId>
+      <artifactId>javax.el</artifactId>
+      <version>3.0.1-b08</version>
+    </dependency>
+    <dependency>
+      <groupId>com.datastax.cassandra</groupId>
+      <artifactId>cassandra-driver-mapping</artifactId>
+      <version>${datastax.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.datastax.cassandra</groupId>
+      <artifactId>cassandra-driver-core</artifactId>
+      <version>${datastax.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${spring.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>${spring.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>${hibernate.validator.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-all</artifactId>
+      <version>1.3</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
       <version>${spring.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Test dependencies -->
+
+    <dependency>
+      <groupId>com.jayway.jsonpath</groupId>
+      <artifactId>json-path</artifactId>
+      <version>2.2.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -991,14 +969,19 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cassandra-maven-plugin</artifactId>
-        <version>${maven.cassandra.version}</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.apache.cassandra</groupId>
-            <artifactId>cassandra-all</artifactId>
-            <version>${cassandra.version}</version>
-          </dependency>
-        </dependencies>
+        <version>3.6</version>
+        <configuration>
+          <startNativeTransport>true</startNativeTransport>
+          <cqlVersion>3</cqlVersion>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>start</goal>
+              <goal>stop</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.mortbay.jetty</groupId>

@@ -1,4 +1,4 @@
-package fr.ippon.tatami.domain.validation;
+package fr.ippon.tatami.validation;
 
 /**
  * Bean Validation group used to validate the creation of a user.
