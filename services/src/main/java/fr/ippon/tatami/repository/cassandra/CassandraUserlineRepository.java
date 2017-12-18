@@ -1,5 +1,6 @@
 package fr.ippon.tatami.repository.cassandra;
 
+import com.datastax.driver.core.PreparedStatement;
 import fr.ippon.tatami.domain.status.Share;
 import fr.ippon.tatami.repository.UserlineRepository;
 import org.springframework.stereotype.Repository;
@@ -48,5 +49,11 @@ public class CassandraUserlineRepository extends AbstractCassandraLineRepository
 //        Mutator<String> mutator = HFactory.createMutator(keyspaceOperator, StringSerializer.get());
 //        mutator.addDeletion(login, USERLINE_CF);
 //        mutator.execute();
+    }
+
+    @Override
+    public PreparedStatement getDeleteByIdStmt()
+    {
+        return null;
     }
 }

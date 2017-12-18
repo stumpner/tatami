@@ -4,7 +4,6 @@ import fr.ippon.tatami.domain.DigestType;
 import fr.ippon.tatami.repository.MailDigestRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -25,7 +24,7 @@ import java.util.List;
 @Repository
 public class CassandraMailDigestRepository implements MailDigestRepository {
 
-    @Inject
+    //@Inject
    // private Keyspace keyspaceOperator;
 
     @Override

@@ -1,5 +1,6 @@
 package fr.ippon.tatami.repository.cassandra;
 
+import com.datastax.driver.core.PreparedStatement;
 import fr.ippon.tatami.repository.MentionlineRepository;
 import org.springframework.stereotype.Repository;
 import fr.ippon.tatami.config.ColumnFamilyKeys;
@@ -33,5 +34,11 @@ public class CassandraMentionlineRepository extends AbstractCassandraLineReposit
     @Override
     public List<String> getMentionline(String login, int size, String start, String finish) {
         return getLineFromCF(ColumnFamilyKeys.MENTIONLINE_CF, login, size, start, finish);
+    }
+
+    @Override
+    public PreparedStatement getDeleteByIdStmt()
+    {
+        return null;
     }
 }

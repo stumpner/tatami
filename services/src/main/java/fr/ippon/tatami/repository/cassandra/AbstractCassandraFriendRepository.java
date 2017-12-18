@@ -1,7 +1,6 @@
 package fr.ippon.tatami.repository.cassandra;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -11,7 +10,7 @@ public abstract class AbstractCassandraFriendRepository {
 
    // private ColumnFamilyTemplate<String, String> friendsTemplate;
 
-    @Inject
+    //@Inject
     //private Keyspace keyspaceOperator;
 
     @PostConstruct

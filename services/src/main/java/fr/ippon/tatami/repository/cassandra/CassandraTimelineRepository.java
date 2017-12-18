@@ -1,5 +1,6 @@
 package fr.ippon.tatami.repository.cassandra;
 
+import com.datastax.driver.core.PreparedStatement;
 import fr.ippon.tatami.domain.status.Announcement;
 import fr.ippon.tatami.domain.status.Share;
 import fr.ippon.tatami.repository.TimelineRepository;
@@ -69,5 +70,11 @@ public class CassandraTimelineRepository extends AbstractCassandraLineRepository
 //        Mutator<String> mutator = HFactory.createMutator(keyspaceOperator, StringSerializer.get());
 //        mutator.addDeletion(login, TIMELINE_CF);
 //        mutator.execute();
+    }
+
+    @Override
+    public PreparedStatement getDeleteByIdStmt()
+    {
+        return null;
     }
 }

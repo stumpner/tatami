@@ -1,10 +1,10 @@
 package fr.ippon.tatami.repository.cassandra;
 
+import com.datastax.driver.core.PreparedStatement;
 import fr.ippon.tatami.domain.status.Status;
 import fr.ippon.tatami.repository.TaglineRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
 import java.util.Collection;
 import java.util.List;
 
@@ -23,7 +23,7 @@ import static fr.ippon.tatami.config.ColumnFamilyKeys.TAGLINE_CF;
 @Repository
 public class CassandraTaglineRepository extends AbstractCassandraLineRepository implements TaglineRepository {
 
-    @Inject
+    //@Inject
     //private Keyspace keyspaceOperator;
 
     @Override
@@ -56,5 +56,11 @@ public class CassandraTaglineRepository extends AbstractCassandraLineRepository 
      */
     private String getKey(String domain, String tag) {
         return tag.toLowerCase() + "-" + domain;
+    }
+
+    @Override
+    public PreparedStatement getDeleteByIdStmt()
+    {
+        return null;
     }
 }

@@ -5,7 +5,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
 import java.util.Collection;
 
 /**
@@ -22,7 +21,7 @@ import java.util.Collection;
 @Repository
 public class CassandraSharesRepository implements SharesRepository {
 
-    @Inject
+    //@Inject
    // private Keyspace keyspaceOperator;
 
     @Override

@@ -4,7 +4,6 @@ import fr.ippon.tatami.repository.DiscussionRepository;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
 import java.util.Collection;
 
 /**
@@ -20,8 +19,7 @@ import java.util.Collection;
 @Repository
 public class CassandraDiscussionRepository implements DiscussionRepository {
 
-    @Inject
-    //private Keyspace keyspaceOperator;
+
 
     @Override
     @CacheEvict(value = "status-cache", key = "#originalStatusId")

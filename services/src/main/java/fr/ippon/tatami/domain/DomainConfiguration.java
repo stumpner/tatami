@@ -1,23 +1,21 @@
 package fr.ippon.tatami.domain;
 
+import com.datastax.driver.mapping.annotations.Column;
+import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
+import com.datastax.driver.mapping.annotations.Transient;
+import org.apache.commons.io.IOUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Properties;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import org.apache.commons.io.IOUtils;
 
 /**
  * The configuration for a specific domain.
  *
  * @author Julien Dubois
  */
-@Entity
 @Table(name = "DomainConfiguration")
 public class DomainConfiguration implements Serializable {
 
@@ -74,7 +72,7 @@ public class DomainConfiguration implements Serializable {
 
     }
 
-    @Id
+    @PartitionKey
     private String domain;
 
     @Column(name = "subscriptionLevel")
@@ -106,6 +104,7 @@ public class DomainConfiguration implements Serializable {
         return storageSize;
     }
 
+    @Transient
     public long getStorageSizeAsLong() {
         try {
             return Long.parseLong(this.storageSize) * 1000000;

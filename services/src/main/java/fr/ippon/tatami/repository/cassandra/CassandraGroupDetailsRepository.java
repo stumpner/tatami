@@ -4,8 +4,6 @@ import fr.ippon.tatami.domain.Group;
 import fr.ippon.tatami.repository.GroupDetailsRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
-
 /**
  * Cassandra implementation of the Group Details repository.
  * <p/>
@@ -23,7 +21,7 @@ public class CassandraGroupDetailsRepository implements GroupDetailsRepository {
     private static final String PUBLIC_GROUP = "publicGroup";
     private static final String ARCHIVED_GROUP = "archivedGroup";
 
-    @Inject
+    //@Inject
     //private Keyspace keyspaceOperator;
 
     @Override

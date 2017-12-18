@@ -4,7 +4,6 @@ import fr.ippon.tatami.repository.UserAttachmentRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import java.util.Collection;
 
 /**
@@ -23,7 +22,7 @@ public class CassandraUserAttachmentRepository
 
     //private ColumnFamilyTemplate<String, UUID> attachmentsTemplate;
 
-    @Inject
+    //@Inject
     //private Keyspace keyspaceOperator;
 
     @PostConstruct

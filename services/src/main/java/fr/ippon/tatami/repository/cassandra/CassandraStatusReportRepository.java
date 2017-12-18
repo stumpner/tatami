@@ -4,7 +4,6 @@ import fr.ippon.tatami.repository.StatusReportRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import java.util.List;
 
 
@@ -13,7 +12,7 @@ public class CassandraStatusReportRepository implements StatusReportRepository {
 
     //private ColumnFamilyTemplate<String, String> reportedStatusTemplate;
 
-    @Inject
+    //@Inject
    // private Keyspace keyspaceOperator;
 
     @PostConstruct

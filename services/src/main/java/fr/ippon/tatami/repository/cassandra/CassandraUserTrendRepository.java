@@ -3,7 +3,6 @@ package fr.ippon.tatami.repository.cassandra;
 import fr.ippon.tatami.repository.UserTrendRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +24,7 @@ public class CassandraUserTrendRepository implements UserTrendRepository {
 
     private final static int TRENDS_NUMBER_OF_TAGS = 50;
 
-    @Inject
+    //@Inject
    // private Keyspace keyspaceOperator;
 
     @Override

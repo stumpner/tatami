@@ -3,7 +3,6 @@ package fr.ippon.tatami.repository.cassandra;
 import fr.ippon.tatami.repository.UserGroupRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -21,7 +20,7 @@ import java.util.List;
 @Repository
 public class CassandraUserGroupRepository implements UserGroupRepository {
 
-    @Inject
+    //@Inject
     //private Keyspace keyspaceOperator;
 
     @Override

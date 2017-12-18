@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
 import java.util.Map;
 
 /**
@@ -28,7 +27,7 @@ public class CassandraRegistrationRepository implements RegistrationRepository {
 
     private final static int COLUMN_TTL = 60 * 60 * 24 * 2; // The column is stored for 2 days.
 
-    @Inject
+    //@Inject
    // private Keyspace keyspaceOperator;
 
     @Override

@@ -4,8 +4,6 @@ import fr.ippon.tatami.domain.Group;
 import fr.ippon.tatami.repository.GroupRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
-
 /**
  * Cassandra implementation of the Group repository.
  * <p/>
@@ -19,7 +17,7 @@ import javax.inject.Inject;
 @Repository
 public class CassandraGroupRepository implements GroupRepository {
 
-    @Inject
+    //@Inject
     //private Keyspace keyspaceOperator;
 
     @Override

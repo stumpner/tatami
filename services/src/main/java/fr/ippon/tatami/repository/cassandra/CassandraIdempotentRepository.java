@@ -5,8 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
-
 /**
  * Used to de-deplucate Camel messages.
  */
@@ -21,7 +19,7 @@ public class CassandraIdempotentRepository implements IdempotentRepository {
 
     private final static int COLUMN_TTL = 60 * 60 * 24 * 30; // The column is stored for 30 days.
 
-    @Inject
+    //@Inject
   //  private Keyspace keyspaceOperator;
 
     @Override

@@ -5,8 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
-
 /**
  * Cassandra implementation of the Group Counter repository.
  * <p/>
@@ -20,7 +18,7 @@ import javax.inject.Inject;
 @Repository
 public class CassandraGroupCounterRepository implements GroupCounterRepository {
 
-    @Inject
+    //@Inject
     //private Keyspace keyspaceOperator;
 
     @Override

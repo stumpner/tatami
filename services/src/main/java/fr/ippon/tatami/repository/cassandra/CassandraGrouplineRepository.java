@@ -1,10 +1,10 @@
 package fr.ippon.tatami.repository.cassandra;
 
+import com.datastax.driver.core.PreparedStatement;
 import fr.ippon.tatami.config.ColumnFamilyKeys;
 import fr.ippon.tatami.repository.GrouplineRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
 import java.util.Collection;
 import java.util.List;
 
@@ -21,7 +21,7 @@ import java.util.List;
 @Repository
 public class CassandraGrouplineRepository extends AbstractCassandraLineRepository implements GrouplineRepository {
 
-    @Inject
+    //@Inject
     //private Keyspace keyspaceOperator;
 
     @Override
@@ -37,5 +37,11 @@ public class CassandraGrouplineRepository extends AbstractCassandraLineRepositor
     @Override
     public List<String> getGroupline(String groupId, int size, String start, String finish) {
         return getLineFromCF(ColumnFamilyKeys.GROUPLINE_CF, groupId, size, start, finish);
+    }
+
+    @Override
+    public PreparedStatement getDeleteByIdStmt()
+    {
+        return null;
     }
 }

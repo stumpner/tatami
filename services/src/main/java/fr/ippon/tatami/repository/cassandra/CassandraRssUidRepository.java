@@ -3,8 +3,6 @@ package fr.ippon.tatami.repository.cassandra;
 import fr.ippon.tatami.repository.RssUidRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
-
 /**
  * Cassandra implementation of the RssUid repository.
  * <p/>
@@ -17,7 +15,7 @@ public class CassandraRssUidRepository implements RssUidRepository {
 
     private final static String ROW_KEY = "rss_uid";
 
-    @Inject
+    //@Inject
     //private Keyspace keyspaceOperator;
 
     @Override
