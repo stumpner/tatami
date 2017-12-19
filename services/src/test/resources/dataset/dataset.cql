@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS status (
     detailsAvailable boolean,
     originalStatusId timeuuid,
     followerLogin varchar,
+    attachments LIST<bigint>,
     PRIMARY KEY(statusId)
 );
 

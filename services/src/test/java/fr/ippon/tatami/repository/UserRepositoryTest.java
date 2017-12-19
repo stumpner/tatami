@@ -2,6 +2,7 @@ package fr.ippon.tatami.repository;
 
 import fr.ippon.tatami.AbstractCassandraTatamiTest;
 import fr.ippon.tatami.domain.User;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
 import javax.inject.Inject;
@@ -147,7 +148,7 @@ public class UserRepositoryTest extends AbstractCassandraTatamiTest {
     public void shouldNotUpdateAUserBecauseLastNameEmpty() {
         String login = "nuser_ippon.fr";
         String firstName = "eee";
-        String lastName = "";
+        String lastName = StringUtils.EMPTY;
         String avatar = "newAvatar";
 
         User user = new User();
@@ -178,7 +179,7 @@ public class UserRepositoryTest extends AbstractCassandraTatamiTest {
     @Test(expected = ValidationException.class)
     public void shouldNotUpdateAUserBecauseFirstNameNull() {
         String login = "nuser_ippon.fr";
-        String firstName = null;
+        String firstName = StringUtils.EMPTY;
         String lastName = "User";
         String email = "nuser_ippon.fr";
         String avatar = "newAvatar";
@@ -195,9 +196,8 @@ public class UserRepositoryTest extends AbstractCassandraTatamiTest {
     @Test(expected = ConstraintViolationException.class)
     public void shouldNotUpdateAUserBecauseFirstNameEmpty() {
         String login = "nuser_ippon.fr";
-        String firstName = "";
+        String firstName = StringUtils.EMPTY;
         String lastName = "User";
-        String email = "nuser_ippon.fr";
         String avatar = "newAvatar";
 
         User user = new User();

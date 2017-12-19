@@ -80,7 +80,7 @@ public class CassandraConfiguration
     @PreDestroy
     public void destroy()
     {
-        log.info("Closing Hector connection pool");
+        log.info("Destroy was called");
     }
 
     @Inject
@@ -810,7 +810,7 @@ public class CassandraConfiguration
     public CassandraMappingContext cassandraMapping() throws ClassNotFoundException
     {
         BasicCassandraMappingContext bean = new BasicCassandraMappingContext();
-        bean.setInitialEntitySet(CassandraEntityClassScanner.scan("it.balyfix"));
+        bean.setInitialEntitySet(CassandraEntityClassScanner.scan("fr.ippon.tatami"));
         bean.setBeanClassLoader(beanFactory.getClass().getClassLoader());
         return bean;
     }

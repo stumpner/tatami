@@ -2,7 +2,6 @@ package fr.ippon.tatami.repository;
 
 import fr.ippon.tatami.AbstractCassandraTatamiTest;
 import fr.ippon.tatami.domain.DigestType;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.inject.Inject;
@@ -16,7 +15,6 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Pierre Rust
  */
-@Ignore
 public class MailDigestRepositoryTest extends AbstractCassandraTatamiTest {
 
     @Inject

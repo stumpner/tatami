@@ -1,8 +1,10 @@
 package fr.ippon.tatami.repository;
 
+import com.google.common.collect.Lists;
 import fr.ippon.tatami.AbstractCassandraTatamiTest;
 import fr.ippon.tatami.domain.status.AbstractStatus;
 import fr.ippon.tatami.domain.status.Status;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -46,15 +48,13 @@ public class StatusRepositoryTest extends AbstractCassandraTatamiTest {
         status.setContent(content);
         status.setLogin(login);
 
-        statusRepository.createStatus(login, false, null, new ArrayList<String>(),
+        statusRepository.createStatus(login, false, null, Lists.newArrayList(),
                 content, "", "", "", null);
     }
 
     @Test(expected = ConstraintViolationException.class)
     public void shouldNotCreateAStatusBecauseContentNull() {
         String login = "jdubois@ippon.fr";
-        String username = "jdubois";
-        String domain = "ippon.fr";
         String content = null;
 
         Status status = new Status();
@@ -68,16 +68,14 @@ public class StatusRepositoryTest extends AbstractCassandraTatamiTest {
     @Test(expected = ConstraintViolationException.class)
     public void shouldNotCreateAStatusBecauseContentEmpty() {
         String login = "jdubois@ippon.fr";
-        String username = "jdubois";
-        String domain = "ippon.fr";
         String content = "";
 
         Status status = new Status();
         status.setContent(content);
         status.setLogin(login);
 
-        statusRepository.createStatus(login, false, null, new ArrayList<String>(),
-                content, "", "", "", null);
+        statusRepository.createStatus(login, false, null, Lists.newArrayList(),
+                content,StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY, null);
     }
 
     @Test(expected = ConstraintViolationException.class)
@@ -91,10 +89,7 @@ public class StatusRepositoryTest extends AbstractCassandraTatamiTest {
         Status status = new Status();
         status.setContent(content);
         String login = "jdubois@ippon.fr";
-        String username = "jdubois";
-        String domain = "ippon.fr";
-
-        statusRepository.createStatus(login, false, null, new ArrayList<String>(),
-                content, "", "", "", null);
+        statusRepository.createStatus(login, false, null, Lists.newArrayList(),
+                content, StringUtils.EMPTY,StringUtils.EMPTY, StringUtils.EMPTY, null);
     }
 }

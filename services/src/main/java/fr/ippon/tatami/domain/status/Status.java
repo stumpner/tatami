@@ -1,5 +1,6 @@
 package fr.ippon.tatami.domain.status;
 
+import com.datastax.driver.mapping.annotations.Table;
 import fr.ippon.tatami.domain.Attachment;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -12,6 +13,7 @@ import java.util.Collection;
  *
  * @author Julien Dubois
  */
+@Table(name="status")
 public class Status extends AbstractStatus {
 
     private String groupId;
