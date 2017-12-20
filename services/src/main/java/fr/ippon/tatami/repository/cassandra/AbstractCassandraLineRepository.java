@@ -95,8 +95,8 @@ public abstract class AbstractCassandraLineRepository {
         String columnFamily,
         String sharesColumnFamily) {
 
-        if (!findByLoginAndStatusId(columnFamily,login,UUID.fromString(share.getStatusId())) &&
-            !findByLoginAndStatusId(sharesColumnFamily,login,UUID.fromString(share.getStatusId()))) {
+        if (!findByLoginAndStatusId(columnFamily,login,share.getStatusId()) &&
+            !findByLoginAndStatusId(sharesColumnFamily,login,share.getStatusId())) {
             Statement statement = QueryBuilder.insertInto(columnFamily)
                 .value("key", login)
                 .value("status", share.getStatusId());

@@ -1,28 +1,40 @@
 package fr.ippon.tatami.domain.status;
 
+import com.datastax.driver.mapping.annotations.Column;
+import com.datastax.driver.mapping.annotations.PartitionKey;
+
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
+
 
 /**
  * Parent class for all statuses.
  */
 public abstract class AbstractStatus implements Serializable {
 
-    private String statusId;
+
+    @PartitionKey
+    private UUID statusId;
 
     @NotNull
+    @Column
     private StatusType type;
 
     @NotNull
+    @Column
     private String login;
 
     @NotNull
+    @Column
     private String username;
 
     @NotNull
+    @Column
     private String domain;
 
+    @Column
     private Date statusDate;
 
     public String getGeoLocalization() {
@@ -37,11 +49,11 @@ public abstract class AbstractStatus implements Serializable {
 
     private boolean removed;
 
-    public String getStatusId() {
+    public UUID getStatusId() {
         return statusId;
     }
 
-    public void setStatusId(String statusId) {
+    public void setStatusId(UUID statusId) {
         this.statusId = statusId;
     }
 

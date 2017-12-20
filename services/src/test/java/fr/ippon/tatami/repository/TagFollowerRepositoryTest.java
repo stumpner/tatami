@@ -1,7 +1,6 @@
 package fr.ippon.tatami.repository;
 
 import fr.ippon.tatami.AbstractCassandraTatamiTest;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.inject.Inject;
@@ -9,7 +8,7 @@ import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 
-@Ignore
+
 public class TagFollowerRepositoryTest extends AbstractCassandraTatamiTest {
 
     @Inject

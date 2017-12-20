@@ -118,7 +118,7 @@ public class CassandraStatusRepository implements StatusRepository {
         Status status = new Status();
         //todo fbalicchia check
 
-        status.setStatusId(UUIDs.timeBased().toString());
+        status.setStatusId(UUIDs.timeBased());
         status.setLogin(login);
         status.setType(StatusType.STATUS);
         String username = DomainUtil.getUsernameFromLogin(login);
@@ -188,7 +188,7 @@ public class CassandraStatusRepository implements StatusRepository {
     private Insert createBaseStatus(AbstractStatus abstractStatus) {
 
         //todo fbalicchia check
-        abstractStatus.setStatusId(UUIDs.timeBased().toString());
+        abstractStatus.setStatusId(UUIDs.timeBased());
         abstractStatus.setStatusDate(Calendar.getInstance().getTime());
         if (abstractStatus.getLogin() == null) {
             throw new IllegalStateException("Login cannot be null for status: " + abstractStatus);
@@ -299,7 +299,7 @@ public class CassandraStatusRepository implements StatusRepository {
             return null;
         }
         //todo fbalicchia check
-        status.setStatusId(UUID.fromString(statusId).toString());
+        status.setStatusId(UUID.fromString(statusId));
         status.setLogin(row.getString(LOGIN));
         status.setUsername(row.getString(USERNAME));
 
@@ -351,7 +351,7 @@ public class CassandraStatusRepository implements StatusRepository {
     private AbstractStatus findStatus(Row result, String statusId) {
         Status status = new Status();
         //todo fbalicchia check
-        status.setStatusId(UUID.fromString(statusId).toString());
+        status.setStatusId(UUID.fromString(statusId));
         status.setType(StatusType.STATUS);
         status.setContent(result.getString(CONTENT));
         status.setStatusPrivate(result.getBool(STATUS_PRIVATE));
@@ -391,7 +391,7 @@ public class CassandraStatusRepository implements StatusRepository {
         log.debug("Removing Status : {}", status);
         BatchStatement batch = new BatchStatement();
         //todo fbalicchia check
-        batch.add(deleteByIdStmt.bind().setUUID("statusId", UUID.fromString(status.getStatusId())));
+        batch.add(deleteByIdStmt.bind().setUUID("statusId", status.getStatusId()));
         session.execute(batch);
     }
 

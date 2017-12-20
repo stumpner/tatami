@@ -164,7 +164,7 @@ public class ElasticsearchSearchService implements SearchService {
     private final ElasticsearchMapper<Status> statusMapper = new ElasticsearchMapper<Status>() {
         @Override
         public String id(Status status) {
-            return status.getStatusId();
+            return status.getStatusId().toString();
         }
 
         @Override
@@ -220,8 +220,8 @@ public class ElasticsearchSearchService implements SearchService {
                                      int page,
                                      int size) {
 
-        Assert.notNull(query);
-        Assert.notNull(domain);
+        Assert.notNull(query,"Query null");
+        Assert.notNull(domain,"Domain null");
 
         if (page < 0) {
             page = 0; //Default value

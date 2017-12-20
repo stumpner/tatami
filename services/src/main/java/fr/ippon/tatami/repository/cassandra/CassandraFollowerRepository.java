@@ -1,12 +1,20 @@
 package fr.ippon.tatami.repository.cassandra;
 
+import com.datastax.driver.core.ResultSet;
+import com.datastax.driver.core.Session;
+import com.datastax.driver.core.Statement;
+import com.datastax.driver.core.querybuilder.QueryBuilder;
+import fr.ippon.tatami.config.ColumnFamilyKeys;
 import fr.ippon.tatami.repository.FollowerRepository;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
-import fr.ippon.tatami.config.ColumnFamilyKeys;
 
+import javax.inject.Inject;
 import java.util.Collection;
+import java.util.stream.Collectors;
+
+import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
 
 /**
  * Cassandra implementation of the Follower repository.
@@ -20,6 +28,9 @@ import java.util.Collection;
  */
 @Repository
 public class CassandraFollowerRepository extends AbstractCassandraFollowerRepository implements FollowerRepository {
+
+    @Inject
+    Session session;
 
     @Override
     @CacheEvict(value = "followers-cache", key = "#login")
@@ -36,7 +47,17 @@ public class CassandraFollowerRepository extends AbstractCassandraFollowerReposi
     @Override
     @Cacheable("followers-cache")
     public Collection<String> findFollowersForUser(String login) {
-        return super.findFollowers(login);
+
+        Statement statement = QueryBuilder.select()
+            .column("login")
+            .from("followers")
+            .where(eq("key", login));
+        ResultSet results = session.execute(statement);
+        return results
+            .all()
+            .stream()
+            .map(e -> e.getString("login"))
+            .collect(Collectors.toList());
     }
 
     @Override

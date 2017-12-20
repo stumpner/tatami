@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
-
 @Ignore
 public class StatusRepositoryTest extends AbstractCassandraTatamiTest {
 

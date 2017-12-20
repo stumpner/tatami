@@ -147,10 +147,10 @@ public class TimelineService {
             log.debug("Status does not have the correct type");
             return details;
         }
-        details.setStatusId(status.getStatusId());
+        details.setStatusId(status.getStatusId().toString());
 
         // Shares management
-        Collection<String> sharedByLogins = sharesRepository.findLoginsWhoSharedAStatus(status.getStatusId());
+        Collection<String> sharedByLogins = sharesRepository.findLoginsWhoSharedAStatus(status.getStatusId().toString());
         details.setSharedByLogins(userService.getUsersByLogin(sharedByLogins));
         log.debug("Status shared by {} users", sharedByLogins.size());
 
@@ -166,7 +166,7 @@ public class TimelineService {
             statusIdsInDiscussion.remove(status.getStatusId());
         } else { // This is the original discussion
             // Add the replies
-            statusIdsInDiscussion.addAll(discussionRepository.findStatusIdsInDiscussion(status.getStatusId()));
+            statusIdsInDiscussion.addAll(discussionRepository.findStatusIdsInDiscussion(status.getStatusId().toString()));
         }
 
         // Transform the Set to a Map<String, String>
@@ -207,7 +207,7 @@ public class TimelineService {
                     }
 
                     StatusDTO statusDTO = new StatusDTO();
-                    statusDTO.setStatusId(abstractStatus.getStatusId());
+                    statusDTO.setStatusId(abstractStatus.getStatusId().toString());
                     statusDTO.setStatusDate(abstractStatus.getStatusDate());
                     statusDTO.setGeoLocalization(abstractStatus.getGeoLocalization());
                     statusDTO.setActivated(statusUser.getActivated());
@@ -222,7 +222,7 @@ public class TimelineService {
                         Share share = (Share) abstractStatus;
                         AbstractStatus originalStatus = statusRepository.findStatusById(share.getOriginalStatusId());
                         if (originalStatus != null) { // Find the original status
-                            statusDTO.setTimelineId(share.getStatusId());
+                            statusDTO.setTimelineId(share.getStatusId().toString());
                             statusDTO.setSharedByUsername(share.getUsername());
                             statusUser = userService.getUserByLogin(originalStatus.getLogin());
                             addStatusToLine(statuses, statusDTO, originalStatus, statusUser, usergroups, favoriteLine);
@@ -233,7 +233,7 @@ public class TimelineService {
                         MentionShare mentionShare = (MentionShare) abstractStatus;
                         AbstractStatus originalStatus = statusRepository.findStatusById(mentionShare.getOriginalStatusId());
                         if (originalStatus != null) { // Find the status that was shared
-                            statusDTO.setTimelineId(mentionShare.getStatusId());
+                            statusDTO.setTimelineId(mentionShare.getStatusId().toString());
                             statusDTO.setSharedByUsername(mentionShare.getUsername());
                             statusUser = userService.getUserByLogin(mentionShare.getLogin());
                             addStatusToLine(statuses, statusDTO, originalStatus, statusUser, usergroups, favoriteLine);
@@ -242,7 +242,7 @@ public class TimelineService {
                         }
                     } else if (abstractStatus.getType().equals(StatusType.MENTION_FRIEND)) {
                         MentionFriend mentionFriend = (MentionFriend) abstractStatus;
-                        statusDTO.setTimelineId(mentionFriend.getStatusId());
+                        statusDTO.setTimelineId(mentionFriend.getStatusId().toString());
                         //statusDTO.setSharedByUsername(mentionFriend.getUsername());
                         statusUser = userService.getUserByLogin(mentionFriend.getFollowerLogin());
                         statusDTO.setFirstName(statusUser.getFirstName());
@@ -254,7 +254,7 @@ public class TimelineService {
                         Announcement announcement = (Announcement) abstractStatus;
                         AbstractStatus originalStatus = statusRepository.findStatusById(announcement.getOriginalStatusId());
                         if (originalStatus != null) { // Find the status that was announced
-                            statusDTO.setTimelineId(announcement.getStatusId());
+                            statusDTO.setTimelineId(announcement.getStatusId().toString());
                             statusDTO.setSharedByUsername(announcement.getUsername());
                             statusUser = userService.getUserByLogin(originalStatus.getLogin());
                             addStatusToLine(statuses, statusDTO, originalStatus, statusUser, usergroups, favoriteLine);
@@ -262,7 +262,7 @@ public class TimelineService {
                             log.debug("Announced status has been deleted");
                         }
                     } else { // Normal status
-                        statusDTO.setTimelineId(abstractStatus.getStatusId());
+                        statusDTO.setTimelineId(abstractStatus.getStatusId().toString());
                         addStatusToLine(statuses, statusDTO, abstractStatus, statusUser, usergroups, favoriteLine);
                     }
                 } else {
@@ -565,7 +565,7 @@ public class TimelineService {
 
     private void internalShareStatus(String currentLogin, Status status) {
         // create share
-        Share share = statusRepository.createShare(currentLogin, status.getStatusId());
+        Share share = statusRepository.createShare(currentLogin, status.getStatusId().toString());
 
         // add status to the user's userline and timeline
         userlineRepository.shareStatusToUserline(currentLogin, share);
@@ -576,10 +576,10 @@ public class TimelineService {
             shareStatusToTimelineAndNotify(currentLogin, followerLogin, share);
         }
         // update the status details to add this share
-        sharesRepository.newShareByLogin(status.getStatusId(), currentLogin);
+        sharesRepository.newShareByLogin(status.getStatusId().toString(), currentLogin);
         // mention the status' author that the user has shared his status
-        MentionShare mentionShare = statusRepository.createMentionShare(currentLogin, status.getStatusId());
-        mentionlineRepository.addStatusToMentionline(status.getLogin(), mentionShare.getStatusId());
+        MentionShare mentionShare = statusRepository.createMentionShare(currentLogin, status.getStatusId().toString());
+        mentionlineRepository.addStatusToMentionline(status.getLogin(), mentionShare.getStatusId().toString());
     }
 
     public void addFavoriteStatus(String statusId) {
@@ -632,7 +632,7 @@ public class TimelineService {
 
     private void internalAnnounceStatus(String currentLogin, Status status) {
         // create announcement
-        Announcement announcement = statusRepository.createAnnouncement(currentLogin, status.getStatusId());
+        Announcement announcement = statusRepository.createAnnouncement(currentLogin, status.getStatusId().toString());
 
         // add status to everyone's timeline
         String domain = DomainUtil.getDomainFromLogin(currentLogin);
