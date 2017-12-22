@@ -1,6 +1,8 @@
 package fr.ippon.tatami.domain.status;
 
+import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.Table;
+import com.datastax.driver.mapping.annotations.Transient;
 import fr.ippon.tatami.domain.Attachment;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -16,12 +18,16 @@ import java.util.Collection;
 @Table(name="status")
 public class Status extends AbstractStatus {
 
+    @Column
     private String groupId;
 
+    @Column
     private Boolean statusPrivate;
 
+    @Column
     private Boolean hasAttachments;
 
+    @Transient
     private Collection<Attachment> attachments;
 
     @NotNull

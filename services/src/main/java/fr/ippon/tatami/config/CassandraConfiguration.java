@@ -6,7 +6,9 @@ import com.datastax.driver.core.policies.LatencyAwarePolicy;
 import com.datastax.driver.core.policies.LoadBalancingPolicy;
 import com.datastax.driver.core.policies.ReconnectionPolicy;
 import com.datastax.driver.core.policies.RetryPolicy;
+import com.datastax.driver.extras.codecs.enums.EnumNameCodec;
 import com.google.common.collect.Lists;
+import fr.ippon.tatami.domain.status.StatusType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
@@ -17,7 +19,6 @@ import org.springframework.data.cassandra.config.CassandraEntityClassScanner;
 import org.springframework.data.cassandra.config.CassandraSessionFactoryBean;
 import org.springframework.data.cassandra.core.convert.CassandraConverter;
 import org.springframework.data.cassandra.core.convert.MappingCassandraConverter;
-import org.springframework.data.cassandra.core.mapping.BasicCassandraMappingContext;
 import org.springframework.data.cassandra.core.mapping.CassandraMappingContext;
 import org.springframework.util.StringUtils;
 
@@ -388,10 +389,20 @@ public class CassandraConfiguration
         return policy;
     }
 
+
+    private CodecRegistry createCodecRegistry()
+    {
+        CodecRegistry codecRegistry = new CodecRegistry();
+        codecRegistry.register(new EnumNameCodec<StatusType>(StatusType.class));
+        return codecRegistry;
+    }
+
+
+
     public com.datastax.driver.core.Cluster createCluster()
     {
         com.datastax.driver.core.Cluster.Builder builder = com.datastax.driver.core.Cluster.builder()
-            .withClusterName(env.getProperty(CASSANDRA_CLUSTER_NAME));
+            .withClusterName(env.getProperty(CASSANDRA_CLUSTER_NAME)).withCodecRegistry(createCodecRegistry());
         if (env.getProperty(CASSANDRA_PORT) != null)
         {
             builder.withPort(Integer.parseInt(env.getProperty(CASSANDRA_PORT)));
@@ -809,7 +820,7 @@ public class CassandraConfiguration
     @Bean
     public CassandraMappingContext cassandraMapping() throws ClassNotFoundException
     {
-        BasicCassandraMappingContext bean = new BasicCassandraMappingContext();
+        CassandraMappingContext bean = new CassandraMappingContext();
         bean.setInitialEntitySet(CassandraEntityClassScanner.scan("fr.ippon.tatami"));
         bean.setBeanClassLoader(beanFactory.getClass().getClassLoader());
         return bean;

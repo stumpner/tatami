@@ -5,7 +5,6 @@ import fr.ippon.tatami.AbstractCassandraTatamiTest;
 import fr.ippon.tatami.domain.status.AbstractStatus;
 import fr.ippon.tatami.domain.status.Status;
 import org.apache.commons.lang.StringUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.inject.Inject;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
-@Ignore
+
 public class StatusRepositoryTest extends AbstractCassandraTatamiTest {
 
     @Inject
@@ -31,7 +30,7 @@ public class StatusRepositoryTest extends AbstractCassandraTatamiTest {
         String login = "jdubois@ippon.fr";
         String content = "content";
 
-        Status created = statusRepository.createStatus(login, false, null, new ArrayList<String>(),
+        Status created = statusRepository.createStatus(login, false, null, Lists.newArrayList(),
                 content, "", "", "", "48.54654, 3.87987987");
         log.info(created.getStatusId().toString());
         AbstractStatus foundStatus =  statusRepository.findStatusById(created.getStatusId().toString());

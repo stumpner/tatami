@@ -381,7 +381,7 @@ public class ElasticsearchSearchService implements SearchService {
      * @param mapper Converter to JSON.
      */
     private <T> void index(T object, ElasticsearchMapper<T> mapper) {
-        Assert.notNull(object);
+        Assert.notNull(object,"Object null");
         Assert.notNull(mapper);
 
         final String type = mapper.type();

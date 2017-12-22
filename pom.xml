@@ -441,7 +441,7 @@
     <velocity.version>1.7</velocity.version>
     <yammer.metrics.version>2.2.0</yammer.metrics.version>
     <camel.version>2.11.0</camel.version>
-    <datastax.version>3.3.0</datastax.version>
+    <datastax.version>3.3.2</datastax.version>
 
     <selenium.version>2.31.0</selenium.version>
 
@@ -744,6 +744,11 @@
       <artifactId>cassandra-driver-mapping</artifactId>
       <version>${datastax.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.datastax.cassandra</groupId>
+      <artifactId>cassandra-driver-extras</artifactId>
+      <version>${datastax.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>com.notnoop.apns</groupId>
@@ -770,7 +775,7 @@
     <dependency>
       <groupId>org.cassandraunit</groupId>
       <artifactId>cassandra-unit</artifactId>
-      <version>2.1.9.2</version>
+      <version>3.3.0.2</version>
       <scope>test</scope>
     </dependency>
 
