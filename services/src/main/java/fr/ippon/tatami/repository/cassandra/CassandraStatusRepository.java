@@ -187,7 +187,6 @@ public class CassandraStatusRepository implements StatusRepository {
 
     private Insert createBaseStatus(AbstractStatus abstractStatus) {
 
-        //todo fbalicchia check
         abstractStatus.setStatusId(UUIDs.timeBased());
         abstractStatus.setStatusDate(Calendar.getInstance().getTime());
         if (abstractStatus.getLogin() == null) {
@@ -309,9 +308,7 @@ public class CassandraStatusRepository implements StatusRepository {
         } else {
             throw new IllegalStateException("Status cannot have a null domain: " + status);
         }
-
-        //todo fbalicchia check
-        status.setStatusDate(new Date(row.getDate(STATUS_DATE).getMillisSinceEpoch()));
+        status.setStatusDate(row.getTimestamp(STATUS_DATE));
         Boolean removed = row.getBool(REMOVED);
         if (removed != null) {
             status.setRemoved(removed);

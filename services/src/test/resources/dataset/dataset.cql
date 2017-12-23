@@ -274,6 +274,14 @@ CREATE TABLE IF NOT EXISTS domainConfiguration (
     PRIMARY KEY(domain)
 );
 
+CREATE TABLE IF NOT EXISTS ReportedStatus (
+    domain varchar,
+    reportedStatusId varchar,
+    reportingLogin varchar,
+    PRIMARY KEY(domain,reportedStatusId)
+);
+
+
 INSERT INTO user (login , avatar , firstname , lastname , username , domain ) VALUES('jdubois@ippon.fr', 'avatar', 'Julien','Dubois','jdubois','ippon.fr');
 INSERT INTO user (login , avatar , firstname , lastname , username , domain ) VALUES('uuser@ippon.fr', 'avatar', 'Update','User','uuser','ippon.fr');
 INSERT INTO user (login , avatar , firstname , lastname , username , domain ) VALUES('timelineUser@ippon.fr','avatar','User','TimelineUser','timelineUser','ippon.fr');

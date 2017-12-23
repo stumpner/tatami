@@ -1,7 +1,6 @@
 package fr.ippon.tatami.repository;
 
 import fr.ippon.tatami.AbstractCassandraTatamiTest;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.inject.Inject;
@@ -9,7 +8,6 @@ import java.util.Collection;
 
 import static junit.framework.TestCase.*;
 
-@Ignore
 public class StatusReportRepositoryTest extends AbstractCassandraTatamiTest {
 
     @Inject

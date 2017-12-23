@@ -1,6 +1,5 @@
 package fr.ippon.tatami.repository;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface StatusReportRepository {

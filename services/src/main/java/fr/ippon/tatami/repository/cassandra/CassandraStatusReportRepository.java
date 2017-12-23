@@ -1,68 +1,105 @@
 package fr.ippon.tatami.repository.cassandra;
 
+import com.datastax.driver.core.ResultSet;
+import com.datastax.driver.core.Row;
+import com.datastax.driver.core.Session;
+import com.datastax.driver.core.Statement;
+import com.datastax.driver.core.querybuilder.Insert;
+import com.datastax.driver.core.querybuilder.QueryBuilder;
+import fr.ippon.tatami.config.ColumnFamilyKeys;
 import fr.ippon.tatami.repository.StatusReportRepository;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
+
+
+/**
+ * Cassandra implementation repository
+ * Key: Domain
+ * Name: reportedStatusId
+ * value: reportingLogin
+ */
 
 
 @Repository
-public class CassandraStatusReportRepository implements StatusReportRepository {
+public class CassandraStatusReportRepository implements StatusReportRepository
+{
 
-    //private ColumnFamilyTemplate<String, String> reportedStatusTemplate;
+    @Inject
+    private Session session;
 
-    //@Inject
-   // private Keyspace keyspaceOperator;
-
-    @PostConstruct
-    public void init() {
-//        reportedStatusTemplate = new ThriftColumnFamilyTemplate<String, String>(keyspaceOperator,
-//                STATUS_REPORT_CF,
-//                StringSerializer.get(),
-//                StringSerializer.get());
-//        reportedStatusTemplate.setCount(Constants.CASSANDRA_MAX_COLUMNS);
+    @Override
+    public void reportStatus(String domain, String reportedStatusId, String reportingLogin)
+    {
+        Insert statement = QueryBuilder.insertInto(ColumnFamilyKeys.STATUS_REPORT_CF).value("domain", domain)
+            .value("reportedStatusId", reportedStatusId)
+            .value("reportingLogin", reportingLogin);
+        session.execute(statement);
     }
 
     @Override
-    public void reportStatus(String domain,  String reportedStatusId, String reportingLogin) {
-//        Mutator<String> mutator = HFactory.createMutator(keyspaceOperator, StringSerializer.get());
-//        mutator.insert(domain, STATUS_REPORT_CF, HFactory.createStringColumn(reportedStatusId, reportingLogin));
+    public void unreportStatus(String domain, String reportedStatusId)
+    {
+        Statement statement = QueryBuilder.delete().from(ColumnFamilyKeys.STATUS_REPORT_CF).where(eq("domain", domain)).and(eq("reportedStatusId", reportedStatusId));
+        session.execute(statement);
     }
 
     @Override
-    public void unreportStatus(String domain,  String reportedStatusId) {
-//        Mutator<String> mutator = HFactory.createMutator(keyspaceOperator, StringSerializer.get());
-//        mutator.delete(domain, STATUS_REPORT_CF, reportedStatusId, StringSerializer.get());
+    public List<String> findReportedStatuses(String domain)
+    {
+        Statement statement = QueryBuilder.select()
+            .column("reportedStatusId")
+            .from(ColumnFamilyKeys.STATUS_REPORT_CF)
+            .where(eq("domain", domain));
+        ResultSet results = session.execute(statement);
+        return results
+            .all()
+            .stream()
+            .map(e -> e.getString("reportedStatusId"))
+            .collect(Collectors.toList());
     }
+
+    public String findUserHavingReported(String domain, String statusId)
+    {
+        Statement statement = QueryBuilder.select().all()
+            .from(ColumnFamilyKeys.STATUS_REPORT_CF)
+            .where(eq("domain", domain));
+        ResultSet results = session.execute(statement);
+
+        return results
+            .all()
+            .stream().filter(item -> item.getString("reportedStatusId").equalsIgnoreCase(statusId))
+            .map(row -> row.getString("reportingLogin"))
+            .findFirst().orElse(StringUtils.EMPTY);
+    }
+
 
     @Override
-    public List<String> findReportedStatuses(String domain) {
-//        SliceQuery<String, String, String> query = HFactory.createSliceQuery(keyspaceOperator, StringSerializer.get(),
-//                StringSerializer.get(), StringSerializer.get()).
-//                setKey(domain).setColumnFamily(STATUS_REPORT_CF);
-//
-//        ColumnSliceIterator<String, String, String> iterator =
-//                new ColumnSliceIterator<String, String, String>(query, null, "\uFFFF", false);
-//
-//        List<String> reportedStatuses = new ArrayList<String>();
-//        while (iterator.hasNext()) {
-//            reportedStatuses.add(iterator.next().getName());
-//        }
-//        return reportedStatuses;
-        return null;
-    }
+    public boolean hasBeenReportedByUser(String domain, String reportedStatusId, String login)
+    {
 
-    public String findUserHavingReported(String domain, String statusId){
-//        ColumnFamilyResult<String, String> res = reportedStatusTemplate.queryColumns(domain);
-//        return res.getString(statusId);
-        return null;
-    }
+        Statement statement = QueryBuilder.select().all()
+            .from(ColumnFamilyKeys.STATUS_REPORT_CF)
+            .where(eq("domain", domain));
+        ResultSet results = session.execute(statement);
 
-    @Override
-    public boolean hasBeenReportedByUser(String domain, String reportedStatusId, String login) {
-//        return login.equals(reportedStatusTemplate.queryColumns(domain).getString(reportedStatusId));
-        return true;
+        List<Row> all = results.all();
+
+        if (CollectionUtils.isNotEmpty(all))
+        {
+            return all.get(0).getString("reportingLogin").equalsIgnoreCase(login);
+        }
+        else
+        {
+            return false;
+        }
+
     }
 
 }
