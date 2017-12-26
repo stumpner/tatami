@@ -23,6 +23,12 @@ import static fr.ippon.tatami.config.ColumnFamilyKeys.FRIENDS_CF;
 public class CassandraFriendRepository extends AbstractCassandraFriendRepository implements FriendRepository {
 
     @Override
+    protected String getFriendsTable()
+    {
+        return getFriendsCF();
+    }
+
+    @Override
     @CacheEvict(value = "friends-cache", key = "#login")
     public void addFriend(String login, String friendLogin) {
         super.addFriend(login, friendLogin);

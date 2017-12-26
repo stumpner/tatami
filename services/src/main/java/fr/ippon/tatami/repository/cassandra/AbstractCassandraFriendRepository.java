@@ -1,47 +1,52 @@
 package fr.ippon.tatami.repository.cassandra;
 
-import javax.annotation.PostConstruct;
+import com.datastax.driver.core.ResultSet;
+import com.datastax.driver.core.Session;
+import com.datastax.driver.core.Statement;
+import com.datastax.driver.core.querybuilder.QueryBuilder;
+
+import javax.inject.Inject;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
 
 /**
  * Abstract class for managing friends : users or tags that a user follows.
  */
 public abstract class AbstractCassandraFriendRepository {
 
-   // private ColumnFamilyTemplate<String, String> friendsTemplate;
+    @Inject
+    Session session;
 
-    //@Inject
-    //private Keyspace keyspaceOperator;
+    protected abstract String getFriendsTable();
 
-    @PostConstruct
-    public void init() {
-//        friendsTemplate = new ThriftColumnFamilyTemplate<String, String>(keyspaceOperator,
-//                getFriendsCF(),
-//                StringSerializer.get(),
-//                StringSerializer.get());
-//
-//        friendsTemplate.setCount(Constants.CASSANDRA_MAX_COLUMNS);
+    public void addFriend(String login, String friendTag) {
+        Statement statement = QueryBuilder.insertInto(getFriendsTable())
+            .value("login", login)
+            .value("friendLogin", friendTag);
+        session.execute(statement);
+
     }
 
-    void addFriend(String key, String friendKey) {
-//        Mutator<String> mutator = HFactory.createMutator(keyspaceOperator, StringSerializer.get());
-//        mutator.insert(key, getFriendsCF(), HFactory.createColumn(friendKey,
-//                Calendar.getInstance().getTimeInMillis(), StringSerializer.get(), LongSerializer.get()));
+    public void removeFriend(String login, String friendTag) {
+        Statement statement = QueryBuilder.delete().from(getFriendsTable())
+            .where(eq("login", login))
+            .and(eq("friendLogin", friendTag));
+        session.execute(statement);
     }
 
-    void removeFriend(String key, String friendKey) {
-//        Mutator<String> mutator = HFactory.createMutator(keyspaceOperator, StringSerializer.get());
-//        mutator.delete(key, getFriendsCF(), friendKey, StringSerializer.get());
-    }
-
-    List<String> findFriends(String key) {
-//        ColumnFamilyResult<String, String> result = friendsTemplate.queryColumns(key);
-//        List<String> friends = new ArrayList<String>();
-//        for (String columnName : result.getColumnNames()) {
-//            friends.add(columnName);
-//        }
-    //    return friends;
-        return null;
+    public List<String> findFriends(String login) {
+        Statement statement = QueryBuilder.select()
+            .column("friendLogin")
+            .from(getFriendsTable())
+            .where(eq("login", login));
+        ResultSet results = session.execute(statement);
+        return results
+            .all()
+            .stream()
+            .map(e -> e.getString("friendLogin"))
+            .collect(Collectors.toList());
     }
 
     protected abstract String getFriendsCF();

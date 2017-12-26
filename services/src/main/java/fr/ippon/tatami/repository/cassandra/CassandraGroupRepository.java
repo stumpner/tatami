@@ -14,6 +14,8 @@ import org.springframework.stereotype.Repository;
  *
  * @author Julien Dubois
  */
+
+//fbalicchia TODO: 26/12/2017
 @Repository
 public class CassandraGroupRepository implements GroupRepository {
 

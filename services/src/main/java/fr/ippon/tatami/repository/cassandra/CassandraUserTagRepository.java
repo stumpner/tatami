@@ -37,6 +37,12 @@ public class CassandraUserTagRepository
     }
 
     @Override
+    protected String getFriendsTable()
+    {
+        return getFriendsCF();
+    }
+
+    @Override
     public String getFriendsCF() {
         return ColumnFamilyKeys.USER_TAGS_CF;
     }

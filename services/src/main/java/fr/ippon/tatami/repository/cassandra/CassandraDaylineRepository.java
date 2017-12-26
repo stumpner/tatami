@@ -1,13 +1,22 @@
 package fr.ippon.tatami.repository.cassandra;
 
+import com.datastax.driver.core.ResultSet;
+import com.datastax.driver.core.Session;
+import com.datastax.driver.core.Statement;
+import com.datastax.driver.core.querybuilder.QueryBuilder;
 import fr.ippon.tatami.domain.UserStatusStat;
 import fr.ippon.tatami.domain.status.Status;
 import fr.ippon.tatami.repository.DaylineRepository;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
+
+import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
+import static com.datastax.driver.core.querybuilder.QueryBuilder.incr;
 
 /**
  * Cassandra implementation of the user repository.
@@ -22,34 +31,35 @@ import java.util.TreeSet;
 @Repository
 public class CassandraDaylineRepository implements DaylineRepository {
 
-//    @Inject
-//    private Keyspace keyspaceOperator;
+    @Inject
+    Session session;
+
+
 
     @Override
     public void addStatusToDayline(Status status, String day) {
         String key = getKey(status.getDomain(), day);
-//        Mutator<String> mutator = HFactory.createMutator(keyspaceOperator, StringSerializer.get());
-//        mutator.incrementCounter(key, DAYLINE_CF, status.getUsername(), 1);
+        Statement query = QueryBuilder.update("dayline")
+            .with(incr("statusCount", 1))
+            // Use incr for counters
+            .where(eq("domainDay", key)).and(eq("username",status.getUsername()));
+        session.execute(query);
     }
 
     @Override
     @Cacheable("dayline-cache")
     public Collection<UserStatusStat> getDayline(String domain, String day) {
         String key = getKey(domain, day);
-        Collection<UserStatusStat> results = new TreeSet<UserStatusStat>();
-//        SliceCounterQuery<String, String> query = createCounterSliceQuery(keyspaceOperator,
-//                StringSerializer.get(), StringSerializer.get())
-//                .setColumnFamily(DAYLINE_CF)
-//                .setRange(null, null, false, Integer.MAX_VALUE)
-//                .setKey(key);
-
-       // CounterSlice<String> queryResult = query.execute().get();
-
-//        for (HCounterColumn<String> column : queryResult.getColumns()) {
-//            UserStatusStat stat = new UserStatusStat(column.getName(), column.getValue());
-//            results.add(stat);
-//        }
-        return results;
+        Statement statement = QueryBuilder.select()
+            .all()
+            .from("dayline")
+            .where(eq("domainDay", key));
+        ResultSet results = session.execute(statement);
+        return results
+            .all()
+            .stream()
+            .map(e -> new UserStatusStat(e.getString("username"),e.getLong("statusCount")))
+            .collect(Collectors.toCollection(TreeSet::new));
     }
 
     /**

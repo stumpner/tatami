@@ -1,11 +1,19 @@
 package fr.ippon.tatami.repository.cassandra;
 
+import com.datastax.driver.core.ResultSet;
+import com.datastax.driver.core.Session;
+import com.datastax.driver.core.Statement;
+import com.datastax.driver.core.querybuilder.QueryBuilder;
+import fr.ippon.tatami.config.GroupRoles;
 import fr.ippon.tatami.repository.UserGroupRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
 
 /**
  * Cassandra implementation of the User groups repository.
@@ -20,62 +28,62 @@ import java.util.List;
 @Repository
 public class CassandraUserGroupRepository implements UserGroupRepository {
 
-    //@Inject
-    //private Keyspace keyspaceOperator;
+    @Inject
+    Session session;
+
 
     @Override
     public void addGroupAsMember(String login, String groupId) {
-//        Mutator<String> mutator = HFactory.createMutator(keyspaceOperator, StringSerializer.get());
-//        mutator.insert(login, USER_GROUPS_CF, HFactory.createColumn(groupId,
-//                GroupRoles.MEMBER, StringSerializer.get(), StringSerializer.get()));
+        Statement statement = QueryBuilder.insertInto("userGroup")
+            .value("login", login)
+            .value("groupId", groupId)
+            .value("role", GroupRoles.MEMBER);
+        session.execute(statement);
     }
 
     @Override
     public void addGroupAsAdmin(String login, String groupId) {
-//        Mutator<String> mutator = HFactory.createMutator(keyspaceOperator, StringSerializer.get());
-//        mutator.insert(login, USER_GROUPS_CF, HFactory.createColumn(groupId,
-//                GroupRoles.ADMIN, StringSerializer.get(), StringSerializer.get()));
+        Statement statement = QueryBuilder.insertInto("userGroup")
+            .value("login", login)
+            .value("groupId", groupId)
+            .value("role", GroupRoles.ADMIN);
+        session.execute(statement);
     }
 
     @Override
     public void removeGroup(String login, String groupId) {
-//        Mutator<String> mutator = HFactory.createMutator(keyspaceOperator, StringSerializer.get());
-//        mutator.delete(login, USER_GROUPS_CF, groupId, StringSerializer.get());
+        Statement statement = QueryBuilder.delete().from("userGroup")
+            .where(eq("login", login))
+            .and(eq("groupId", groupId));
+        session.execute(statement);
     }
 
     @Override
     public List<String> findGroups(String login) {
-        List<String> groups = new ArrayList<String>();
-//        ColumnSlice<String, String> result = createSliceQuery(keyspaceOperator,
-//                StringSerializer.get(), StringSerializer.get(), StringSerializer.get())
-//                .setColumnFamily(USER_GROUPS_CF)
-//                .setKey(login)
-//                .setRange(null, null, false, Integer.MAX_VALUE)
-//                .execute()
-//                .get();
-//
-//        for (HColumn<String, String> column : result.getColumns()) {
-//            groups.add(column.getName());
-//        }
-        return groups;
+        Statement statement = QueryBuilder.select()
+            .column("groupId")
+            .from("userGroup")
+            .where(eq("login", login));
+        ResultSet results = session.execute(statement);
+        return results
+            .all()
+            .stream()
+            .map(e -> e.getUUID("groupId").toString())
+            .collect(Collectors.toList());
     }
 
     @Override
     public Collection<String> findGroupsAsAdmin(String login) {
-        List<String> groups = new ArrayList<String>();
-//        ColumnSlice<String, String> result = createSliceQuery(keyspaceOperator,
-//                StringSerializer.get(), StringSerializer.get(), StringSerializer.get())
-//                .setColumnFamily(USER_GROUPS_CF)
-//                .setKey(login)
-//                .setRange(null, null, false, Integer.MAX_VALUE)
-//                .execute()
-//                .get();
-
-//        for (HColumn<String, String> column : result.getColumns()) {
-//            if (column.getValue() != null && column.getValue().equals(GroupRoles.ADMIN)) {
-//                groups.add(column.getName());
-//            }
-//        }
-        return groups;
+        Statement statement = QueryBuilder.select()
+            .all()
+            .from("userGroup")
+            .where(eq("login", login));
+        ResultSet results = session.execute(statement);
+        return results
+            .all()
+            .stream()
+            .filter(e -> e.getString("role").equals(GroupRoles.ADMIN))
+            .map(e -> e.getUUID("groupId").toString())
+            .collect(Collectors.toList());
     }
 }

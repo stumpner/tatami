@@ -1,10 +1,12 @@
 package fr.ippon.tatami.repository.cassandra;
 
 import com.datastax.driver.core.PreparedStatement;
+import fr.ippon.tatami.config.ColumnFamilyKeys;
 import fr.ippon.tatami.domain.status.Status;
 import fr.ippon.tatami.repository.TaglineRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
 import java.util.Collection;
 import java.util.List;
 
@@ -23,8 +25,23 @@ import static fr.ippon.tatami.config.ColumnFamilyKeys.TAGLINE_CF;
 @Repository
 public class CassandraTaglineRepository extends AbstractCassandraLineRepository implements TaglineRepository {
 
-    //@Inject
-    //private Keyspace keyspaceOperator;
+    private PreparedStatement findByLoginStmt;
+
+    private PreparedStatement deleteByIdStmt;
+
+
+    @PostConstruct
+    public void init() {
+        findByLoginStmt = session.prepare(
+            "SELECT * " +
+                "FROM " + TAGLINE_CF+
+                " WHERE key = :key");
+
+        deleteByIdStmt = session.prepare("DELETE FROM " + TAGLINE_CF +
+            " WHERE key = :key " +
+            "AND status = :statusId");
+
+    }
 
     @Override
     public void addStatusToTagline(String tag, Status status) {
@@ -33,22 +50,12 @@ public class CassandraTaglineRepository extends AbstractCassandraLineRepository 
 
     @Override
     public void removeStatusesFromTagline(String tag, String domain, Collection<String> statusIdsToDelete) {
-//        Mutator<String> mutator = HFactory.createMutator(keyspaceOperator, StringSerializer.get());
-//        for (String statusId : statusIdsToDelete) {
-//            mutator.addDeletion(
-//                    getKey(domain, tag),
-//                    TAGLINE_CF,
-//                    UUID.fromString(statusId),
-//                    UUIDSerializer.get());
-//
-//        }
-//        mutator.execute();
-
+        removeStatuses(getKey(domain, tag), ColumnFamilyKeys.TAGLINE_CF, statusIdsToDelete);
     }
 
     @Override
     public List<String> getTagline(String domain, String tag, int size, String start, String finish) {
-        return getLineFromCF(TAGLINE_CF, getKey(domain, tag), size, start, finish);
+        return getLineFromTable(TAGLINE_CF, getKey(domain, tag), size, start, finish);
     }
 
     /**
@@ -59,8 +66,7 @@ public class CassandraTaglineRepository extends AbstractCassandraLineRepository 
     }
 
     @Override
-    public PreparedStatement getDeleteByIdStmt()
-    {
-        return null;
+    public PreparedStatement getDeleteByIdStmt() {
+        return deleteByIdStmt;
     }
 }
